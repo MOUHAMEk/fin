@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risques Signalés</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<style>
+    body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Segoe Script', cursive;
+}
+
+.risks {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+}
+
+.risk {
+    width: 200px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ea0707;
+    cursor: pointer;
+}
+
+.risk:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.risk-date {
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.detector {
+    margin-top: 50px;
+}
+
+.detector label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.detector input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.detector button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.detector button:hover {
+    background-color: #45a049;
+}
+
+</style>
+<div class="container">
+    <h1>Risques Signalés</h1>
+    <div class="risks">
+        <div class="risk" id="risk1">
+            <h2>Nom du Risque 1</h2>
+            <p>Commentaire sur le Risque 1.</p>
+            <p class="risk-date">Date de Signalement: 2024-04-29</p>
+        </div>
+        <div class="risk" id="risk2">
+            <h2>Nom du Risque 2</h2>
+            <p>Commentaire sur le Risque 2.</p>
+            <p class="risk-date">Date de Signalement: 2024-04-28</p>
+        </div>
+        <div class="risk" id="risk3">
+            <h2>Nom du Risque 3</h2>
+            <p>Commentaire sur le Risque 3.</p>
+            <p class="risk-date">Date de Signalement: 2024-04-27</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="detector" id="detector-section">
+            <!-- Le contenu du détecteur sera ajouté ici par JavaScript -->
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.querySelectorAll('.risk').forEach(function(risk) {
+    risk.addEventListener('click', function() {
+        // Récupérer la date de signalement du risque
+        var riskDate = risk.querySelector('.risk-date').innerText.split(': ')[1];
+        // Calculer la durée écoulée depuis le signalement
+        var timeElapsed = getTimeElapsed(riskDate);
+        // Créer un nouveau détecteur avec un nom par défaut et la durée écoulée
+        var detectorHtml = `
+            <label for="detector-name">Nom du Détecteur:</label>
+            <input type="text" id="detector-name" value="Med Lemin Sidi" readonly>
+            <p>Durée écoulée depuis le signalement: ${timeElapsed}</p>
+            <button id="accept-risk-button">Accepter le Risque et Débuter les Actions Correctives</button>
+        `;
+        // Insérer le détecteur dans la section détecteur
+        document.getElementById('detector-section').innerHTML = detectorHtml;
+    });
+});
+
+document.getElementById('detector-section').addEventListener('click', function(event) {
+    // Vérifier si le bouton d'acceptation du risque est cliqué
+    if (event.target && event.target.id === 'accept-risk-button') {
+        // Afficher un message
+        alert('Risque accepté et actions correctives en cours avec le détecteur: Med Lemin Sidi');
+        // Réinitialiser le contenu de la section détecteur
+        document.getElementById('detector-section').innerHTML = '';
+    }
+});
+
+// Fonction pour calculer la durée écoulée depuis une date donnée
+function getTimeElapsed(startDate) {
+    var today = new Date();
+    var signalementDate = new Date(startDate);
+    var timeDiff = Math.abs(today.getTime() - signalementDate.getTime());
+    var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    return daysDiff + ' jours';
+}
+
+</script>
+</body>
+</html>
